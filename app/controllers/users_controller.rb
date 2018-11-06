@@ -14,6 +14,7 @@ class UsersController < ApplicationController
       flash[:success] = "Welcome to the Sample App!"
       redirect_to @user
     else
+      flash[:warning] = "Something went wrong!"
       render 'new'
     end
   end
