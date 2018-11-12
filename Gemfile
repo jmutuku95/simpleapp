@@ -16,10 +16,13 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '3.1.12'
+gem 'will_paginate', '3.1.6'
+gem 'will_paginate-bootstrap', '1.0.1'
 
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry', '~>0.11.3'
+  gem 'faker', '1.6.6'
 end
 
 group :development do
