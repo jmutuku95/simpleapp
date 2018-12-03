@@ -1,14 +1,15 @@
 class User < ApplicationRecord
   attr_accessor :activation_token, :remember_token
-  before_create :create_activation_digest 
+  before_create :create_activation_digest
   before_save :downcase_email
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i.freeze
   validates :name,  presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
                     uniqueness: { case_sensitive: false }
 
   has_secure_password
+  # use conditional validation check if persisted
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 
   def self.digest(string)
@@ -28,17 +29,19 @@ class User < ApplicationRecord
 
   def authenticated?(remember_token)
     return false if remember_digest.nil?
+
     BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
   def forget
     update_attribute(:remember_digest, nil)
   end
-  
+
   # Will returns true if the given a token matching the digest.
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
+
     BCrypt::Password.new(digest).is_password?(token)
   end
 

@@ -16,6 +16,7 @@ module SessionsHelper
 
   # get current user from session or cookies if remember_me is chosen
   def current_user
+    # separate logic for getting users from session/cookies
     if (user_id = session[:user_id])
       @current_user ||= User.find(user_id)
     elsif (user_id = cookies.signed[:user_id])
@@ -39,14 +40,14 @@ module SessionsHelper
   end
 
   def redirect_back_or(default)
-    redirect_to( session[:forwarding_url] || default)
+    redirect_to(session[:forwarding_url] || default)
     session.delete(:forwarding_url)
   end
 
   def store_location
     session[:forwarding_url] = request.original_url if request.get?
   end
-  
+
   def remember(user)
     user.remember
     cookies.permanent.signed[:user_id] = user.id

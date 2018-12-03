@@ -3,14 +3,14 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: %i[index edit update]
   before_action :correct_user, only: %i[edit update]
   before_action :admin_user, only: :destroy
-  
+
   def index
     @users = User.where(activated: true).paginate(page: params[:page])
   end
 
   def show
     @user
-    redirect_to root_url and return unless @user.activated?
+    redirect_to(root_url) && return unless @user.activated?
   end
 
   def new
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       @user.send_activation_email
-      flash[:info] = "Please check your email to activate your account."
+      flash[:info] = 'Please check your email to activate your account.'
       redirect_to root_url
     else
       render 'new'
@@ -34,15 +34,15 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to @user, success:"User details successfully updated."
+      redirect_to @user, success: 'User details successfully updated.'
     else
-      render 'edit', error: "Update failed"
+      render 'edit', error: 'Update failed'
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: "User has been deleted"
+    redirect_to users_url, notice: 'User has been deleted'
   end
 
   private
@@ -56,14 +56,16 @@ class UsersController < ApplicationController
     )
   end
 
+  # move these to helper
   def get_user
+    # use begin rescue end block
     @user = User.find(params[:id])
   end
 
   def logged_in_user
     unless logged_in?
       store_location
-      flash[:danger] = "Please log in first."
+      flash[:danger] = 'Please log in first.'
       redirect_to login_url
     end
   end
