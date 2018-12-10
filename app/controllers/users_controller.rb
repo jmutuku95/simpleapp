@@ -20,9 +20,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      redirect_to root_url, info: 'Please check your email to activate your account.'
+      redirect_to root_url, flash: { info: 'Please check your email to activate
+        your account.' }
     else
-      render 'new', info: 'User creation was not successful'
+      render 'new', flash: { info: 'User creation was not successful' }
     end
   end
 
@@ -32,15 +33,15 @@ class UsersController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to @user, success: 'User details successfully updated.'
+      redirect_to @user, flash: { success: 'User details successfully updated.' }
     else
-      render 'edit', error: 'Update failed'
+      render 'edit', flash: { error: 'Update failed' }
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: 'User has been deleted'
+    redirect_to users_url, flash: { info: 'User has been deleted' }
   end
 
   private

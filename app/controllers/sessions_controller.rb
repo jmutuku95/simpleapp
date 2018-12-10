@@ -24,9 +24,8 @@ class SessionsController < ApplicationController
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
       redirect_back_or @user
     else
-      flash[:warning] = "Account not activated. Check your email for the
-                         activation link."
-      redirect_to root_url
+      redirect_to root_url, flash: { warning: "Account not activated. Check
+        your email for the activation link." }
     end
   end
 
