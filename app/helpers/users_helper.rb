@@ -25,6 +25,10 @@ module UsersHelper
   end
 
   def admin_user
-    redirect_to root_url unless current_user.admin?
+    redirect_to root_url, flash: { danger: 'You are not authorised!' } unless current_user.admin?
+  end
+
+  def not_myself
+    redirect_to root_url, flash: { danger: 'Cannot delete yourself!' } if current_user == @user
   end
 end

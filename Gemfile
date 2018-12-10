@@ -5,6 +5,13 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+group :development do
+  gem 'listen'
+  gem 'spring', '~>2.0.2'
+  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'web-console', '>= 3.3.0'
+end
+
 gem 'bcrypt', '3.1.12'
 gem 'bootstrap-sass', '3.3.7'
 gem 'coffee-rails', '~> 4.2'
@@ -23,13 +30,6 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'faker', '1.6.6'
   gem 'pry', '~>0.11.3'
-end
-
-group :development do
-  gem 'listen', '~> 3.0.5'
-  gem 'spring', '~>2.0.2'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'web-console', '>= 3.3.0'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

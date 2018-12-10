@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :get_user, only: %i[edit update show destroy]
   before_action :logged_in_user, only: %i[index edit update]
   before_action :correct_user, only: %i[edit update]
-  before_action :admin_user, only: :destroy
+  before_action :admin_user, :not_myself, only: :destroy
 
   def index
     @users = User.active.paginate(page: params[:page])
@@ -27,9 +27,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-    @user
-  end
+  def edit; end
 
   def update
     if @user.update_attributes(user_params)
