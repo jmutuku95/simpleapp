@@ -1,10 +1,10 @@
 class PasswordResetsController < ApplicationController
   include PasswordResetsHelper
-  before_action :extract_user_from_reset_params, only: %i[create]
-  before_action :get_user_by_email, only: %i[edit update]
+  before_action :find_user_from_reset_token, only: %i[create]
+  before_action :locate_user_by_email, only: %i[edit update]
   before_action :valid_user, only: %i[edit update]
   before_action :check_reset_token_expiration, only: %i[edit update]
-  
+
   def new; end
 
   def create
@@ -20,11 +20,9 @@ class PasswordResetsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
-    # binding.pry
     if @user.update_attributes(reset_params)
       log_in @user
       redirect_to @user, flash: { success: 'Password has been reset.' }
