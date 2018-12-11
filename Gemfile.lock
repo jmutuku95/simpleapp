@@ -181,7 +181,7 @@ DEPENDENCIES
   faker (= 1.6.6)
   jbuilder (~> 2.5)
   jquery-rails
-  listen (~> 3.0.5)
+  listen
   pg (~> 0.18.4)
   pry (~> 0.11.3)
   puma (~> 3.0)

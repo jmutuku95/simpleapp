@@ -1,14 +1,16 @@
 class UsersController < ApplicationController
+  include UsersHelper
   before_action :get_user, only: %i[edit update show destroy]
   before_action :logged_in_user, only: %i[index edit update]
   before_action :correct_user, only: %i[edit update]
-  before_action :admin_user, only: :destroy
-  
+  before_action :admin_user, :not_myself, only: :destroy
+
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.active.paginate(page: params[:page])
   end
+
   def show
-    @user
+    redirect_to(root_url) && return unless @user.activated?
   end
 
   def new
@@ -18,28 +20,26 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      log_in(@user)
-      redirect_to @user
+      redirect_to root_url, flash: { info: 'Please check your email to activate
+        your account.' }
     else
-      render 'new'
+      render 'new', flash: { info: 'User creation was not successful' }
     end
   end
 
-  def edit
-    @user
-  end
+  def edit; end
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to @user, success:"User details successfully updated."
+      redirect_to @user, flash: { success: 'User details successfully updated.' }
     else
-      render 'edit', error: "Update failed"
+      render 'edit', flash: { error: 'Update failed' }
     end
   end
 
   def destroy
     @user.destroy
-    redirect_to users_url, notice: "User has been deleted"
+    redirect_to users_url, flash: { info: 'User has been deleted' }
   end
 
   private
@@ -51,25 +51,5 @@ class UsersController < ApplicationController
       :password,
       :password_confirmation
     )
-  end
-
-  def get_user
-    @user = User.find(params[:id])
-  end
-
-  def logged_in_user
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in first."
-      redirect_to login_url
-    end
-  end
-
-  def correct_user
-    redirect_to current_user unless current_user?(@user)
-  end
-
-  def admin_user
-    redirect_to root_url unless current_user.admin?
   end
 end
