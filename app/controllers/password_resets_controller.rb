@@ -20,7 +20,9 @@ class PasswordResetsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit;
+    binding.pry
+  end
 
   def update
     if @user.update_attributes(reset_params)
