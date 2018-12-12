@@ -39,7 +39,7 @@ class User < ApplicationRecord
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
     return false if digest.nil?
-
+    
     BCrypt::Password.new(digest).is_password?(token)
   end
 
@@ -48,7 +48,7 @@ class User < ApplicationRecord
   end
 
   def send_activation_email
-    UserMailer.account_activation(self).deliver_later
+    UserMailer.account_activation(self, activation_token).deliver_later
   end
 
   def create_reset_digest!
@@ -67,7 +67,7 @@ class User < ApplicationRecord
   private
 
   def send_password_reset_email
-    UserMailer.password_reset(self).deliver_later
+    UserMailer.password_reset(self, reset_token).deliver_later
   end
 
   def create_activation_digest

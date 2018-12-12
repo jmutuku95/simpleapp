@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :get_user_from_session, only: [:create]
+  before_action :find_user, only: [:create]
   def new; end
 
   def create
@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
     end
   end
 
-  def get_user_from_session
+  def find_user
     @user = User.find_by(email: params[:session][:email].downcase)
   end
 end
