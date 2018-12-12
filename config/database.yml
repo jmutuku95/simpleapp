@@ -5,8 +5,8 @@ default: &default
 
 development:
   <<: *default
-  database: demo_test_development
+  database: simpleapp_development
 
 test:
   <<: *default
-  database: demo_test_test
+  database: simpleapp_test

@@ -57,11 +57,15 @@ class User < ApplicationRecord
       reset_digest: User.digest(reset_token),
       reset_sent_at: Time.zone.now
     )
-    send_password_reset_email
   end
 
   def password_reset_token_expired?
-    reset_sent_at < 1.hour.ago
+    reset_sent_at < 2.hours.ago
+  end
+
+  def create_and_send_reset_token
+    create_reset_digest!
+    send_password_reset_email
   end
 
   private

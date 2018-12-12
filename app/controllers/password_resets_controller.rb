@@ -9,7 +9,7 @@ class PasswordResetsController < ApplicationController
 
   def create
     if @user
-      @user.create_reset_digest!
+      @user.create_and_send_reset_token
       redirect_to root_url, flash: {
         info: 'Check your email for password reset instructions.'
       }
@@ -20,9 +20,7 @@ class PasswordResetsController < ApplicationController
     end
   end
 
-  def edit;
-    binding.pry
-  end
+  def edit;end
 
   def update
     if @user.update_attributes(reset_params)
