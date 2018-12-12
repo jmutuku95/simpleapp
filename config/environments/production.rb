@@ -94,6 +94,7 @@ Rails.application.configure do
     user_name: Rails.application.credentials.gmail_username,
     password: Rails.application.credentials.gmail_password,
     authentication: 'plain',
+    domain: 'vast-hamlet-38373.herokuapp.com',
     enable_starttls_auto: true
   }
   config.require_master_key = true
