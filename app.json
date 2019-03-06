@@ -15,6 +15,9 @@
     },
     "SECRET_KEY_BASE": {
       "required": true
+    },
+    "RAILS_MASTER_KEY": {
+      "required": true
     }
   },
   "formation": {

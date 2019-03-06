@@ -1,5 +1,5 @@
 class AccountActivationsController < ApplicationController
-  before_action :get_user, only: [:edit]
+  before_action :find_user, only: [:edit]
   def edit
     if @user && !@user.activated? && @user.authenticated?(:activation, params[:id])
       @user.activate!
@@ -12,7 +12,7 @@ class AccountActivationsController < ApplicationController
 
   private
 
-  def get_user
+  def find_user
     @user = User.find_by(email: params[:email])
   end
 end

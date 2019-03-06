@@ -86,7 +86,7 @@ Rails.application.configure do
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
-  host = 'vast-hamlet-38373.herokuapp.com'
+  host = 'vast-hamlet-38373-pr-8.herokuapp.com' # will be changed to staging app name before merging
   config.action_mailer.default_url_options = { host: host }
   ActionMailer::Base.smtp_settings = {
     address: 'smtp.sendgrid.net',
@@ -97,4 +97,5 @@ Rails.application.configure do
     domain: 'heroku.com',
     enable_starttls_auto: true
   }
+  config.require_master_key = true
 end
